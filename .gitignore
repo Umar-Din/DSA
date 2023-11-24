@@ -9,7 +9,7 @@ build/
 out/
 Debug/
 Release/
-
+linked_list_operations
 
 # Don't ignore .cpp files
 !*.cpp
