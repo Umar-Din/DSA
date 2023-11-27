@@ -17,15 +17,15 @@ class LinkedList{
         int length;
     public:
         LinkedList():head(NULL),length(0){}
-        LinkedList(int elements[], int size):head(NULL){
-            cout<<size<<endl;
-            int i=1;
+        LinkedList(initializer_list<int> list):head(NULL){
+            int size = std::distance(list.begin(),list.end());
+            int elements[size]; std::copy(list.begin(),list.end(),elements);
             Node* node = new Node;
             node->data = elements[0];
             node->next = NULL;
             head = node;
             tail = node;
-            for(i;i<size;i++){
+            for(int i = 1; i<size; i++){
                 Node* newnode = new Node;
                 newnode->data = elements[i];
                 newnode->next = NULL;
@@ -40,8 +40,9 @@ class LinkedList{
         void insertInSorted(int element);
         bool isSorted();
         void concatinate(LinkedList* list3);
-        void merge(Node* list3);
+        void merge(LinkedList* list3);
         void reverse();
+        void reverselinkedlist();
         
 
 };
@@ -168,13 +169,102 @@ void LinkedList::concatinate(LinkedList* list3){
     length+=list3->length;
     // delete list3->head;
 }
+//reversing the linked list by manuplating the links
+void LinkedList::reverse(){
+    if(length==0) return;
+    else{
+        Node* temp_pointer = head;
+        Node* temp_pointer_f1 = NULL;
+        Node* temp_pointer_f2 = NULL;
+        while(temp_pointer!=NULL){
+            temp_pointer_f2 = temp_pointer_f1;
+            temp_pointer_f1 = temp_pointer;
+            temp_pointer = temp_pointer->next;
+
+            temp_pointer_f1->next = temp_pointer_f2;
+        }
+        // cout<<temp_pointer->next<<endl;
+        // cout<<temp_pointer->data<<endl;
+        head = temp_pointer_f1;
+    }
+}
+
+//reversing the linkedlist by changing the data with the help of array;
+void LinkedList::reverselinkedlist(){
+    if(length==0)return;
+    else{
+        Node* temp_pointer = head;
+        int size = 0;
+        while(temp_pointer){
+            size++;
+            temp_pointer = temp_pointer->next;
+        }
+        int* array = new int[size];
+        int i=0;int j = size-1;
+        temp_pointer = head;
+        while(temp_pointer){
+            array[i++] = temp_pointer->data;
+            temp_pointer = temp_pointer->next;
+        }
+        temp_pointer = head;
+        while(temp_pointer){
+            temp_pointer->data = array[j--];
+            temp_pointer = temp_pointer->next;
+        }
+        delete array;
+    }
+}
+//merging of two sorted linked lists
+void LinkedList::merge(LinkedList* list3){
+    if(length==0 || list3->length==0) return;
+    else{
+        Node* p = head;
+        Node* q = list3->head;
+        Node* fp = NULL;
+        Node* last = NULL;
+        if(p->data<q->data){
+            fp = p;
+            last = p;
+            p = p->next;
+        }else{
+            fp = q;
+            last = q;
+            q = q->next;
+        }
+        while(p && q){
+            if(p->data<q->data){
+                last->next = p;
+                last = p;
+                p = p->next;
+                last->next = NULL;
+            }else{
+                last->next = q;
+                last = q;
+                q = q->next;
+                last->next = NULL;
+            }
+        }
+        if(p){
+            last->next = p;
+            while (p->next!=NULL)
+            {
+                p=p->next;
+            }tail = p;   
+        }else{
+            last->next = q;
+            while(q->next!=NULL){
+                q = q->next;
+            }tail = q;
+        }length = length+=list3->length;
+    }
+}
 int main(){
 
-    int arr[] = {1,2,3,4,5,6,7,8,9,10};
-    int arr2[] = {100,200,300,400,500,600,700,800,900,1000};
+    // int arr[] = ;
+    // int arr2[] = ;
     LinkedList* mylist1 = new LinkedList();
-    LinkedList* mylist2 = new LinkedList(arr,10);
-    LinkedList* mylist3 = new LinkedList(arr2,10);
+    LinkedList* mylist2 = new LinkedList({1,3,5,7,9});
+    LinkedList* mylist3 = new LinkedList({2,4,6,8,10,11,12,13,15});
     // mylist2->display();
     // cout<<"<<<<<<<<<<<<<<<<<inserting element>>>>>>>>>>>>>"<<endl;
     // mylist2->insert(0,0);
@@ -186,8 +276,11 @@ int main(){
     // mylist2->insertInSorted(1);
     // mylist2->insertInSorted(5);
     // cout<<mylist2->isSorted()<<endl;
-    mylist2->concatinate(mylist3);
-    mylist1->concatinate(mylist3);
+    // mylist2->concatinate(mylist3);
+    // mylist1->concatinate(mylist3);
+    // mylist2->reverse();
+    // mylist2->reverselinkedlist();
+    mylist2->merge(mylist3);
     mylist2->display();
     return 0;
 }
