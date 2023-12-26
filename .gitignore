@@ -9,7 +9,9 @@ build/
 out/
 Debug/
 Release/
-
+linked_list_operations
+stack_using_array
+stack_using_linkedlist
 
 # Don't ignore .cpp files
 !*.cpp
