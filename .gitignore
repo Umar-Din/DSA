@@ -1,0 +1,59 @@
+# ===== Python =====
+__pycache__/
+*.py[cod]
+*.egg
+*.egg-info/
+dist/
+build/
+.env
+.venv/
+venv/
+*.log
+*.sqlite3
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# VS Code settings (optional)
+.vscode/
+
+# ===== C / C++ =====
+*.out
+*.o
+*.obj
+*.exe
+*.gch
+*.a
+*.so
+*.dll
+*.log
+
+# Build directories
+/build/
+Debug/
+Release/
+
+# CMake files
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+
+# ===== OS / Editor Files =====
+.DS_Store              # macOS
+Thumbs.db              # Windows
+*.swp                  # Vim swap files
+*.bak
+*.tmp
+
+# ===== Misc =====
+*.tar
+*.zip
+*.7z
+*.gz
+*.rar
+
+# Notes (optional: uncomment if auto-generated)
+# notes/*.pdf
+# notes/*.docx
+
