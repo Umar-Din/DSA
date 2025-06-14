@@ -1,98 +1,131 @@
 /*
-This file contains code related to parameter passing
+    ===================================================================
+    📁 File: parameter_passing_in_c.c
+    📚 Topic: Parameter Passing Methods in C
+    🧠 Purpose: Demonstrates the following parameter passing mechanisms:
+               1. Call by Value
+               2. Call by Address (using pointers)
 
-1. Call By Value
-2. Call By Address
-3. Call By Refrance
+               Also covers parameter passing for:
+               - Built-in data types (like int)
+               - User-defined data types (like struct)
 
-Parameter passing by the above methods will cover for builtin data-types + user defined data-types
-Note:
-    - Arrays are always passed by address
-    - for arrays formal parameter can be written as 
-    1. data-type name[]
-    2. data-type *name
-
-
-Note:
-    - C language does not support Call By Refrance 
-    - Call By Refrance will be illustrated in cpp basics
+    ⚠️ Note:
+    - Arrays in C are **always passed by address**, even if written as `int arr[]`.
+    - C does **not** support Call by Reference directly (as in C++).
+      That will be covered in C++ basics.
+    ===================================================================
 */
 
+#include <stdio.h>
 
-#include<stdio.h>
-
-struct Rectange
-{
+/*
+    ===============================
+    🏗️ User-Defined Structure: Rectangle
+    ===============================
+    Represents a rectangle with:
+    - length
+    - breadth
+    - area (float)
+*/
+struct Rectangle {
     int length;
     int breadth;
     float area;
 };
 
-
-
-
-
 /*
-Call by Value
--------------
-- swap function takes parameters as call by value
-- modification in formal parameters will not effect the actual parameters 
+    ========================================
+    🔁 Call by Value: Built-in Data Types
+    ========================================
+    Swap function that works with **copies** of a and b.
+    Changes made here do NOT affect original variables.
 */
-void swapByValue(int a, int b){
+void swapByValue(int a, int b) {
     int temp = a;
     a = b;
     b = temp;
 }
 
-void swapByAddress(int *a, int *b){
-    // here formal parameters are pointers
-    int temp = *a; //defrencing
+/*
+    ============================================
+    🔁 Call by Address: Built-in Data Types
+    ============================================
+    Uses pointers to swap values at the memory addresses
+    of a and b. This will affect the original variables.
+*/
+void swapByAddress(int *a, int *b) {
+    int temp = *a;      // dereferencing
     *a = *b;
     *b = temp;
 }
 
-// Call By Value
-void calculateAreaByValue(struct Rectange r){
+/*
+    ========================================
+    🧮 Call by Value: User-Defined Data Type
+    ========================================
+    Accepts a copy of the Rectangle object.
+    Any changes made (like updating area) will
+    NOT reflect in the original object.
+*/
+void calculateAreaByValue(struct Rectangle r) {
     float area = r.length * r.breadth;
-    r.area = area;
+    r.area = area;  // change won't reflect in caller
 }
 
-// Call By Address
-void calculateAreaByAddress(struct Rectange *r){
-    float area = r->length*r->breadth;
+/*
+    =========================================
+    🧮 Call by Address: User-Defined Data Type
+    =========================================
+    Accepts a pointer to the Rectangle object.
+    Updates made (like area calculation) will
+    directly modify the original object.
+*/
+void calculateAreaByAddress(struct Rectangle *r) {
+    float area = r->length * r->breadth;
     r->area = area;
 }
 
 
+/*
+    ========================
+    🔽 Main Function
+    ========================
+    Demonstrates parameter passing for:
+    - Built-in types: int
+    - User-defined types: struct Rectangle
+*/
+int main() {
 
-int main(){
+    // ----------------------------------------------------------
+    // 🔹 Built-in Data Types
+    // ----------------------------------------------------------
+    int a = 10;
+    int b = 20;
 
-    // --------- builtin ---------------------------------------------
-    int a,b;
-    a = 10;
-    b = 20;
-    printf("Before swaping Value of [a] = %d & value of [b] = %d\n",a,b);
-    swapByValue(a,b);//Call By Value
-    printf("After swaping Value of [a] = %d & value of [b] = %d\n",a,b);
+    printf("Before swapping: a = %d, b = %d\n", a, b);
+    swapByValue(a, b);  // won't affect a & b
+    printf("After swapByValue: a = %d, b = %d\n", a, b);
 
-    printf("Before swaping Value of [a] = %d & value of [b] = %d\n",a,b);
-    swapByAddress(&a,&b);//Call By Address
-    printf("After swaping Value of [a] = %d & value of [b] = %d\n",a,b);
+    printf("Before swapping: a = %d, b = %d\n", a, b);
+    swapByAddress(&a, &b);  // will affect a & b
+    printf("After swapByAddress: a = %d, b = %d\n", a, b);
 
+    // ----------------------------------------------------------
+    // 🔹 User-Defined Data Types
+    // ----------------------------------------------------------
+    struct Rectangle r = {20, 10};  // initialized object
 
-    // --------- user defined ------------------------------------------
-
-    struct Rectange r = {20,10};
-
-    calculateAreaByValue(r);
+    calculateAreaByValue(r);  // area will NOT update
     printf(
-        "Area Of Rectange When Call By Value [length]=%d & [breadth]=%d > [area]=%.2f\n",
-        r.length,r.breadth,r.area
+        "Call by Value → length = %d, breadth = %d, area = %.2f\n",
+        r.length, r.breadth, r.area
     );
-    calculateAreaByAddress(&r);
+
+    calculateAreaByAddress(&r);  // area will update
     printf(
-        "Area Of Rectange When Call By Adress [length]=%d & [breadth]=%d > [area]=%.2f\n",
-        r.length,r.breadth,r.area
+        "Call by Address → length = %d, breadth = %d, area = %.2f\n",
+        r.length, r.breadth, r.area
     );
 
     return 0;
