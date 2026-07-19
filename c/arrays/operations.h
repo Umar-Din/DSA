@@ -28,8 +28,8 @@ int remove(Array *arr, int index);
 int get(Array arr, int index);
 int set(Array *arr, int index, int element);
 
-int linearSearch(Array arr);
-int binarySearch(Array arr);
+int linearSearch(Array arr, int element);
+int binarySearch(Array arr, int element);
 
 int inplaceLeftShif(Array *arr);
 int inplaceRightShift(Array *arr);
